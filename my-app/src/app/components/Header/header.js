@@ -16,7 +16,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
@@ -66,6 +66,10 @@ export default function Header() {
   const pointOfSellState = useSelector((state) => state.pointOfSell);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  console.log("pointOfSellState",pointOfSellState);
+  
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -140,7 +144,7 @@ export default function Header() {
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge
-            badgeContent={pointOfSellState.localBasket.length}
+            badgeContent={pointOfSellState.localFavorites.length}
             color="error"
           >
             <FavoriteIcon />
@@ -234,7 +238,7 @@ export default function Header() {
               color="inherit"
             >
               <Badge
-                badgeContent={pointOfSellState.localBasket.length}
+                badgeContent={pointOfSellState.localFavorites.length}
                 color="error"
               >
                 <FavoriteIcon />

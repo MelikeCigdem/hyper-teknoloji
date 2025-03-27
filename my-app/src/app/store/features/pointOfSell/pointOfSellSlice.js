@@ -9,6 +9,10 @@ const initialState = {
     typeof window !== "undefined" && localStorage.getItem("localTotalBasePrice")
       ? JSON.parse(localStorage.getItem("localTotalBasePrice"))
       : 0,
+  localFavorites:
+    typeof window !== "undefined" && localStorage.getItem("localFavorites")
+      ? JSON.parse(localStorage.getItem("localFavorites")) || []
+      : [],
 };
 
 export const pointOfSellSlice = createSlice({
@@ -73,10 +77,41 @@ export const pointOfSellSlice = createSlice({
       localStorage.removeItem("localBasket");
       localStorage.removeItem("localTotalBasePrice");
     },
+    addToFavorites: (state, action) => {
+      const item = action.payload;
+      const existingIndex = state.localFavorites.findIndex(
+        (i) => i.productID === item.productID
+      );
+
+      if (existingIndex === -1) {
+        state.localFavorites.push(item);
+        localStorage.setItem(
+          "localFavorites",
+          JSON.stringify(state.localFavorites)
+        );
+      }
+    },
+
+    removeFromFavorites: (state, action) => {
+      const item = action.payload;
+      state.localFavorites = state.localFavorites.filter(
+        (i) => i.productID !== item.productID
+      );
+
+      localStorage.setItem(
+        "localFavorites",
+        JSON.stringify(state.localFavorites)
+      );
+    },
+
+    clearFavorites: (state) => {
+      state.localFavorites = [];
+      localStorage.removeItem("localFavorites");
+    },
   },
 });
 
-export const { addToBasket, removeFromBasket, clearBasket } =
+export const { addToBasket, removeFromBasket, clearBasket,addToFavorites,removeFromFavorites,clearFavorites } =
   pointOfSellSlice.actions;
 
 export default pointOfSellSlice.reducer;
